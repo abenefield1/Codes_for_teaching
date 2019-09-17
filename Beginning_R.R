@@ -59,4 +59,24 @@ ggplot(data, aes(Fecundity))+
   geom_histogram(binwidth=500)+
   geom_vline(xintercept=mean(data$Fecundity))
 
+################## Bridge Data:
+bridge<-read.csv("Bridge_data.csv", header=TRUE)
+head(bridge)
+str(bridge)
+Gen1<-filter(bridge,Generation=="Gen1")
+Gen2<-filter(bridge,Generation=="Gen2")
 
+# Histogram
+ggplot(Gen1, aes(Fitness))+
+  geom_histogram(binwidth=50)+
+  geom_vline(xintercept=mean(Gen1$Fitness))
+
+ggplot(Gen2, aes(Fitness))+
+  geom_histogram(binwidth=50)+
+  geom_vline(xintercept=mean(Gen2$Fitness))
+
+ggplot(bridge, aes(Fitness, fill=Generation))+
+  geom_histogram(binwidth=50)+
+  geom_vline(xintercept=mean(bridge$Fitness))+
+  geom_vline(xintercept=mean(Gen1$Fitness))+
+  geom_vline(xintercept=mean(Gen2$Fitness))
