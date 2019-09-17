@@ -18,10 +18,10 @@
 
 
 ### Loading packages: library(package)
-  # library(tidyverse)
-  # library(ggplot2)
-  # library(dplyr)
-  #library(plyr)
+  library(tidyverse)
+  library(ggplot2)
+  library(dplyr)
+  library(plyr)
 
 
 
@@ -41,7 +41,7 @@ Burdock_data<-read.csv(file="Burdock_data.csv", header=TRUE)
 dat<-ddply(Burdock_data, .(Plant_number), summarize, # Summarize on Plant_number field
         No_burrs=mean(No_burrs), # Taking mean, because they should all be the same
         Avg_No_seeds=mean(No_seeds), # Finding average number of seeds per burr per plant
-        Plant_size=mean(Plant_size), # Taking mean, because they should all be the same
+        Plant_size=mean(Plant_size_), # Taking mean, because they should all be the same
         Num=length(Plant_number)) # Indexing number of rows collapsed for data cleaning
 View(dat)
 head(dat)
@@ -60,7 +60,10 @@ mf<-mean(data$Fecundity)
 # Histogram
 ggplot(data, aes(Fecundity))+
   geom_histogram(binwidth=500)+
-  geom_vline(xintercept=mean(data$Fecundity))
+  geom_vline(xintercept=mean(data$Fecundity))+
+  ggtitle("Distribution of Burdock Fecundity")+
+  ylab("Count (number of plants)")
+  # xlab()
 
 ################## Bridge Data:
 bridge<-read.csv("Bridge_data.csv", header=TRUE)
@@ -74,23 +77,35 @@ Gen2<-filter(bridge,Generation=="Gen2")
 # Histogram of Generation 1 Fitness only
 ggplot(Gen1, aes(Fitness))+
   geom_histogram(binwidth=50)+
-  geom_vline(xintercept=mean(Gen1$Fitness))
+  geom_vline(xintercept=mean(Gen1$Fitness))+
+  ggtitle("Distribution of Bridge Fitness in Generation 1")+
+  ylab("Count (number of bridges)")+
+  xlab("Bridge Fitness")
 
 # Histogram of Generation 2 Fitness only
 ggplot(Gen2, aes(Fitness))+
   geom_histogram(binwidth=50)+
-  geom_vline(xintercept=mean(Gen2$Fitness))
+  geom_vline(xintercept=mean(Gen2$Fitness))+
+  ggtitle("Distribution of Bridge Fitness in Generation 2")+
+  ylab("Count (number of bridges)")+
+  xlab("Bridge Fitness")
 
 # Histogram of all fitness values across generations
 ggplot(bridge, aes(Fitness))+
   geom_histogram(binwidth=50)+
   geom_vline(xintercept=mean(bridge$Fitness))+
   geom_vline(xintercept=mean(Gen1$Fitness))+
-  geom_vline(xintercept=mean(Gen2$Fitness))
+  geom_vline(xintercept=mean(Gen2$Fitness))+
+  ggtitle("Distribution of Bridge Fitness in Both Generations")+
+  ylab("Count (number of bridges)")+
+  xlab("Bridge Fitness")
 
 # Overlapping Histograms
 ggplot(bridge, aes(Fitness, fill=Generation))+
   geom_histogram(binwidth=50)+
   geom_vline(xintercept=mean(bridge$Fitness))+
   geom_vline(xintercept=mean(Gen1$Fitness))+
-  geom_vline(xintercept=mean(Gen2$Fitness))
+  geom_vline(xintercept=mean(Gen2$Fitness))+
+  ggtitle("Distribution of Bridge Fitness in Both Generations")+
+  ylab("Count (number of bridges)")+
+  xlab("Bridge Fitness")
