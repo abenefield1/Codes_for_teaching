@@ -53,6 +53,9 @@ which(dat$No_burrs==dat$Num) # which rows have the same total number of burrs as
 which(dat$No_burrs!=dat$Num) # Which rows have different values? Which are right?
 data<-dat[which(dat$No_burrs!=dat$Num),] # Let's save only those rows. Rows which only have the number of burrs counted will skew our results to show only low numbers
 
+datA <- subset(dat, No_burrs != Num )
+?subset
+
 mf<-mean(data$Fecundity)
 # Histogram
 ggplot(data, aes(Fecundity))+
@@ -66,15 +69,26 @@ str(bridge)
 Gen1<-filter(bridge,Generation=="Gen1")
 Gen2<-filter(bridge,Generation=="Gen2")
 
-# Histogram
+# Histograms
+
+# Histogram of Generation 1 Fitness only
 ggplot(Gen1, aes(Fitness))+
   geom_histogram(binwidth=50)+
   geom_vline(xintercept=mean(Gen1$Fitness))
 
+# Histogram of Generation 2 Fitness only
 ggplot(Gen2, aes(Fitness))+
   geom_histogram(binwidth=50)+
   geom_vline(xintercept=mean(Gen2$Fitness))
 
+# Histogram of all fitness values across generations
+ggplot(bridge, aes(Fitness))+
+  geom_histogram(binwidth=50)+
+  geom_vline(xintercept=mean(bridge$Fitness))+
+  geom_vline(xintercept=mean(Gen1$Fitness))+
+  geom_vline(xintercept=mean(Gen2$Fitness))
+
+# Overlapping Histograms
 ggplot(bridge, aes(Fitness, fill=Generation))+
   geom_histogram(binwidth=50)+
   geom_vline(xintercept=mean(bridge$Fitness))+
