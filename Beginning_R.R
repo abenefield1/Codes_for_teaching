@@ -11,10 +11,10 @@
 
 ### Installing packages: install.packages("package", dependencies = TRUE)
   # Compiling: try no first, then try yes, then try updating R version
-  # install.packages("tidyverse", dependencies=TRUE)
-  # install.packages("ggplot2", dependencies=TRUE)
-  # install.packages("dplyr", dependencies=TRUE)
-  # install.packages("plyr", dependencies=TRUE)
+install.packages("tidyverse", dependencies=TRUE)
+install.packages("ggplot2", dependencies=TRUE)
+install.packages("dplyr", dependencies=TRUE)
+install.packages("plyr", dependencies=TRUE)
 
 
 ### Loading packages: library(package)
@@ -34,19 +34,23 @@ Burdock_data<-read.csv(file="Burdock_data.csv", header=TRUE)
 
 # Exploring Data:
 #View(Burdock_data)
- head(Burdock_data)
-#str(Burdock_data)
-#names(Burdock_data)
+head(Burdock_data)
+str(Burdock_data)
+names(Burdock_data)
 
 dat<-ddply(Burdock_data, .(Plant_number), summarize, # Summarize on Plant_number field
         No_burrs=mean(No_burrs), # Taking mean, because they should all be the same
         Avg_No_seeds=mean(No_seeds), # Finding average number of seeds per burr per plant
-        Plant_size=mean(Plant_size_), # Taking mean, because they should all be the same
+        Plant_size=mean(Plant_size), # Taking mean, because they should all be the same
         Num=length(Plant_number)) # Indexing number of rows collapsed for data cleaning
+
+
 View(dat)
 head(dat)
 dat$Fecundity<-dat$Avg_No_seeds*dat$No_burrs
 head(dat)
+mean(dat$Fecundity)
+sd(dat$Fecundity)
 
 ### Data cleaning: who only entered the # burrs that they counted?
 which(dat$No_burrs==dat$Num) # which rows have the same total number of burrs as the number of burrs counted? Which rows are wrong?
@@ -109,3 +113,4 @@ ggplot(bridge, aes(Fitness, fill=Generation))+
   ggtitle("Distribution of Bridge Fitness in Both Generations")+
   ylab("Count (number of bridges)")+
   xlab("Bridge Fitness")
+
